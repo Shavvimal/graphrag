@@ -1,5 +1,6 @@
 # GraphRAG
 
+ 
 ## What is GraphRAG? 
 
 GraphRAG is an AI-based content interpretation and search capability. Using LLMs, it parses data to create a knowledge graph and answer user questions about a user-provided private dataset. 
