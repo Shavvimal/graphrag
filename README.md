@@ -1,24 +1,44 @@
 # GraphRAG
 
-👉 [Use the GraphRAG Accelerator solution](https://github.com/Azure-Samples/graphrag-accelerator) <br/>
-👉 [Microsoft Research Blog Post](https://www.microsoft.com/en-us/research/blog/graphrag-unlocking-llm-discovery-on-narrative-private-data/)<br/>
-👉 [Read the docs](https://microsoft.github.io/graphrag)<br/>
-👉 [GraphRAG Arxiv](https://arxiv.org/pdf/2404.16130)
+## What is GraphRAG? 
 
-<div align="left">
-  <a href="https://pypi.org/project/graphrag/">
-    <img alt="PyPI - Version" src="https://img.shields.io/pypi/v/graphrag">
-  </a>
-  <a href="https://pypi.org/project/graphrag/">
-    <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/graphrag">
-  </a>
-  <a href="https://github.com/microsoft/graphrag/issues">
-    <img alt="GitHub Issues" src="https://img.shields.io/github/issues/microsoft/graphrag">
-  </a>
-  <a href="https://github.com/microsoft/graphrag/discussions">
-    <img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/microsoft/graphrag">
-  </a>
-</div>
+GraphRAG is an AI-based content interpretation and search capability. Using LLMs, it parses data to create a knowledge graph and answer user questions about a user-provided private dataset. 
+
+## What can GraphRAG do?  
+
+GraphRAG is able to connect information across large volumes of information and use these connections to answer questions that are difficult or impossible to answer using keyword and vector-based search mechanisms. Building on the previous question, provide semi-technical, high-level information on how the system offers functionality for various uses.  This lets a system using GraphRAG to answer questions where the answers span many documents as well as thematic questions such as “what are the top themes in this dataset?.”
+
+## What are GraphRAG’s intended use(s)? 
+
+* GraphRAG is intended to support critical information discovery and analysis use cases where the information required to arrive at a useful insight spans many documents, is noisy, is mixed with mis and/or dis-information, or when the questions users aim to answer are more abstract or thematic than the underlying data can directly answer. 
+* GraphRAG is designed to be used in settings where users are already trained on responsible analytic approaches and critical reasoning is expected. GraphRAG is capable of providing high degrees of insight on complex information topics, however human analysis by a domain expert of the answers is needed in order to verify and augment GraphRAG’s generated responses. 
+* GraphRAG is intended to be deployed and used with a domain specific corpus of text data. GraphRAG itself does not collect user data, but users are encouraged to verify data privacy policies of the chosen LLM used to configure GraphRAG. 
+
+## How was GraphRAG evaluated? What metrics are used to measure performance? 
+
+GraphRAG has been evaluated in multiple ways.  The primary concerns are 1) accurate representation of the data set, 2) providing transparency and  groundedness of responses, 3) resilience to prompt and data corpus injection attacks, and 4) low hallucination rates.  Details on how each of these has been evaluated is outlined below by number. 
+
+1) Accurate representation of the dataset has been tested by both manual inspection and automated testing against a “gold answer” that is created from randomly selected subsets of a test corpus. 
+
+2) Transparency and groundedness of responses is tested via automated answer coverage evaluation and human inspection of the underlying context returned.  
+
+3) We test both user prompt injection attacks (“jailbreaks”) and cross prompt injection attacks (“data attacks”) using manual and semi-automated techniques. 
+
+4) Hallucination rates are evaluated using claim coverage metrics, manual inspection of answer and source, and adversarial attacks to attempt a forced hallucination through adversarial and exceptionally challenging datasets. 
+
+## What are the limitations of GraphRAG? How can users minimize the impact of GraphRAG’s limitations when using the system? 
+
+GraphRAG depends on a well-constructed indexing examples.  For general applications (e.g. content oriented around people, places, organizations, things, etc.) we provide example indexing prompts. For unique datasets effective indexing can depend on proper identification of domain-specific concepts.   
+
+Indexing is a relatively expensive operation; a best practice to mitigate indexing is to create a small test dataset in the target domain to ensure indexer performance prior to large indexing operations. 
+
+## What operational factors and settings allow for effective and responsible use of GraphRAG? 
+
+GraphRAG is designed for use by users with domain sophistication and experience working through difficult information challenges.  While the approach is generally robust to injection attacks and identifying conflicting sources of information, the system is designed for trusted users. Proper human analysis of responses is important to generate reliable insights, and the provenance of information should be traced to ensure human agreement with the inferences made as part of the answer generation. 
+
+GraphRAG yields the most effective results on natural language text data that is collectively focused on an overall topic or theme, and that is entity rich – entities being people, places, things, or objects that can be uniquely identified. 
+
+While GraphRAG has been evaluated for its resilience to prompt and data corpus injection attacks, and has been probed for specific types of harms, the LLM that the user configures with GraphRAG may produce inappropriate or offensive content, which may make it inappropriate to deploy for sensitive contexts without additional mitigations that are specific to the use case and model. Developers should assess outputs for their context and use available safety classifiers, model specific safety filters and features (such as https://azure.microsoft.com/en-us/products/ai-services/ai-content-safety), or custom solutions appropriate for their use case. 
 
 ## Overview
 
@@ -26,46 +46,7 @@ The GraphRAG project is a data pipeline and transformation suite that is designe
 
 To learn more about GraphRAG and how it can be used to enhance your LLMs ability to reason about your private data, please visit the <a href="https://www.microsoft.com/en-us/research/blog/graphrag-unlocking-llm-discovery-on-narrative-private-data/" target="_blank">Microsoft Research Blog Post.</a>
 
-## Quickstart
-
-To get started with the GraphRAG system we recommend trying the [Solution Accelerator](https://github.com/Azure-Samples/graphrag-accelerator) package. This provides a user-friendly end-to-end experience with Azure resources.
-
-## Repository Guidance
-
-This repository presents a methodology for using knowledge graph memory structures to enhance LLM outputs. Please note that the provided code serves as a demonstration and is not an officially supported Microsoft offering.
-
-⚠️ *Warning: GraphRAG indexing can be an expensive operation, please read all of the documentation to understand the process and costs involved, and start small.*
-
-## Diving Deeper
-
-- To learn about our contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md)
-- To start developing _GraphRAG_, see [DEVELOPING.md](./DEVELOPING.md)
-- Join the conversation and provide feedback in the [GitHub Discussions tab!](https://github.com/microsoft/graphrag/discussions)
-
 ## Prompt Tuning
 
 Using _GraphRAG_ with your data out of the box may not yield the best possible results.
 We strongly recommend to fine-tune your prompts following the [Prompt Tuning Guide](https://microsoft.github.io/graphrag/posts/prompt_tuning/overview/) in our documentation.
-
-## Responsible AI FAQ
-
-See [RAI_TRANSPARENCY.md](./RAI_TRANSPARENCY.md)
-
-- [What is GraphRAG?](./RAI_TRANSPARENCY.md#what-is-graphrag)
-- [What can GraphRAG do?](./RAI_TRANSPARENCY.md#what-can-graphrag-do)
-- [What are GraphRAG’s intended use(s)?](./RAI_TRANSPARENCY.md#what-are-graphrags-intended-uses)
-- [How was GraphRAG evaluated? What metrics are used to measure performance?](./RAI_TRANSPARENCY.md#how-was-graphrag-evaluated-what-metrics-are-used-to-measure-performance)
-- [What are the limitations of GraphRAG? How can users minimize the impact of GraphRAG’s limitations when using the system?](./RAI_TRANSPARENCY.md#what-are-the-limitations-of-graphrag-how-can-users-minimize-the-impact-of-graphrags-limitations-when-using-the-system)
-- [What operational factors and settings allow for effective and responsible use of GraphRAG?](./RAI_TRANSPARENCY.md#what-operational-factors-and-settings-allow-for-effective-and-responsible-use-of-graphrag)
-
-## Trademarks
-
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
-
-## Privacy
-
-[Microsoft Privacy Statement](https://privacy.microsoft.com/en-us/privacystatement)
